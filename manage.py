@@ -3,9 +3,6 @@
 import os
 import sys
 
-import django
-django.setup()
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'yoyo1.settings')
