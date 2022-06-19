@@ -117,10 +117,10 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+km/
 project-b/
 .env
 .venv
-km/
 env/
 venv/
 ENV/
