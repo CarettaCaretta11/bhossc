@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import django_heroku
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -17,7 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #os.environ.get('DEBUG') == 'True' # os.environ.get("DEBUG", "False") == "True" 
-
+ 
 ALLOWED_HOSTS = ['bhos.svdev.me', 'admin.svdev.me', '127.0.0.1', 'localhost', '.herokuapp.com', 'bhossc.herokuapp.com']
 
 # Application definition
@@ -97,24 +96,25 @@ DATABASES = {
     # }
 
     # for development
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bhossc',
-        'USER': 'postgres',
-        'PASSWORD': 'asdfg122',
-        # 'HOST': os.environ.get('DATABASE_HOST'),
-        'PORT': '5432', 
-    }    
-
-    # for production
     # 'default' : {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'd6bg7o0gl5qv4l',
-    #     'USER': os.environ.get('DATABASE_USER'),
-    #     'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-    #     'HOST': os.environ.get('DATABASE_HOST'),
+    #     'NAME': '13/main',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'asdfg122',
+    #     # 'HOST': '',
+    #     # 'HOST': os.environ.get('DATABASE_HOST'),
     #     'PORT': '5432', 
-    # }
+    # }    
+
+    # for production
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd6bg7o0gl5qv4l',
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': '5432', 
+    }
 }
 
 
@@ -201,18 +201,23 @@ ASGI_APPLICATION = "yoyo1.asgi.application"
 # }
 
 
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
 }
 
-# Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
-
 cloudinary.config( 
-  cloud_name = "dn3laf4bh", 
-  api_key = "458123621829519", 
-  api_secret = "Mri5UR7onSpyBvRf7HePmq7K1ug" 
+  cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"), 
+  api_key = os.environ.get("CLOUDINARY_API_KEY"), 
+  api_secret = os.environ.get("CLOUDINARY_API_SECRET") 
 )
