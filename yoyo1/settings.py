@@ -4,7 +4,7 @@ import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'di8q37btdngiodujfhiTUABGDaus7atd76ubfausdhsofnsfo87uej' # os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = True # os.environ.get("DEBUG", "False") == "True" 
 
