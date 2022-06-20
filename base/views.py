@@ -62,7 +62,9 @@ def stds(sec): # sec_to_days_status
         return f'{d} days'
     else:
         return f'{w} weeks, {d} days' if d != 0 else f'{w} weeks'
-        
+
+
+# TESTING TESTING TESTING TESTING        
 class AjaxHandlerView(View):
     def get(self, request):
         text = request.GET.get('button_text')
@@ -249,14 +251,13 @@ def get_group_name(user1, user2):
 
 @login_required(login_url='/login/')
 def status_checker(request):
-    if request.user.is_authenticated:
-        if request.GET.get('st'):
-            User.objects.filter(id=request.user.id).update(last_time_visited = now())
-            return JsonResponse({
-                'last_time_visited': request.user.last_time_visited,
-                'get_time_difference': request.user.get_time_diff(),
-                'get_time_difference_minutes': std(request.user.get_time_diff()),
-            })
+    if request.GET.get('st'):
+        User.objects.filter(id=request.user.id).update(last_time_visited = now())
+        return JsonResponse({
+            'last_time_visited': request.user.last_time_visited,
+            'get_time_difference': request.user.get_time_diff(),
+            'get_time_difference_minutes': std(request.user.get_time_diff()),
+        })
 
 @login_required(login_url='/login/')
 def profile_status(request, pk):
