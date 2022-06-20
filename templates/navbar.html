@@ -1,10 +1,27 @@
 {% load static %}
 
-  
+<style>
+.glyphicon{ 
+  font-size: 5em; 
+  float: left; 
+  margin: 3px 20px; 
+  -webkit-transition: 0.6s ease-out;
+  -moz-transition:  0.6s ease-out;
+  transition:  0.6s ease-out;
+}
+
+img.u1:hover {
+  -webkit-transform: rotateZ(720deg);
+  -moz-transform: rotateZ(720deg);
+  transform: rotateZ(720deg);
+}
+</style>
+
+
 <header class="header header--loggedIn">
   <div class="container">
     <a href="{% url 'home' %}" style="text-decoration: none;" class="header__logo">
-      <img src="{% static 'images/logo_1.svg' %}" />
+      <img class="u1 glyphicon" src="{% static 'images/pump-jack-oil-svgrepo-com.svg' %}"/>
     </a>
     <form style="margin-left: 70px;" class="header__search" method="GET" action="{% url 'home'%}">
       <label id='inputlabel'>

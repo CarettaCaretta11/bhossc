@@ -120,6 +120,7 @@ celerybeat.pid
 project-b/
 .env
 .venv
+wr/
 env/
 venv/
 ENV/

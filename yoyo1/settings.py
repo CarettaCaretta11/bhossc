@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #os.environ.get('DEBUG') == 'True' # os.environ.get("DEBUG", "False") == "True" 
+DEBUG = False #os.environ.get('DEBUG') == 'True' # os.environ.get("DEBUG", "False") == "True" 
 
 ALLOWED_HOSTS = ['bhos.svdev.me', 'admin.svdev.me', '127.0.0.1', 'localhost', '.herokuapp.com', 'bhossc.herokuapp.com']
 
@@ -97,24 +97,24 @@ DATABASES = {
     # }
 
     # for development
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bhossc',
-        'USER': 'postgres',
-        'PASSWORD': 'asdfg122',
-        # 'HOST': os.environ.get('DATABASE_HOST'),
-        'PORT': '5432', 
-    }    
-
-    # for production
     # 'default' : {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'd6bg7o0gl5qv4l',
-    #     'USER': os.environ.get('DATABASE_USER'),
-    #     'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-    #     'HOST': os.environ.get('DATABASE_HOST'),
+    #     'NAME': 'bhossc',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'asdfg122',
+    #     # 'HOST': os.environ.get('DATABASE_HOST'),
     #     'PORT': '5432', 
-    # }
+    # }    
+
+    # for production
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd6bg7o0gl5qv4l',
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': '5432', 
+    }
 }
 
 
@@ -212,7 +212,7 @@ import django_heroku
 django_heroku.settings(locals())
 
 cloudinary.config( 
-  cloud_name = "dn3laf4bh", 
-  api_key = "458123621829519", 
-  api_secret = "Mri5UR7onSpyBvRf7HePmq7K1ug" 
+  cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"), 
+  api_key = os.environ.get("CLOUDINARY_API_KEY"), 
+  api_secret = os.environ.get("CLOUDINARY_API_SECRET") 
 )

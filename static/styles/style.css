@@ -337,8 +337,8 @@ a {
 }
 
 .header__logo > img {
-  height: 4rem;
-  width: 15rem;
+  height: 0.5em;
+  width: 16rem;
 }
 
 .header__logo > h1 {
