@@ -1,1 +1,1 @@
-web: daphne yoyo1.asgi:application
+web: gunicorn yoyo1.wsgi
