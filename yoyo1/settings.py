@@ -6,6 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+import django
+django.setup()
+
 DEBUG = True # os.environ.get("DEBUG", "False") == "True" 
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
