@@ -6,14 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-import django
-django.setup()
-
 DEBUG = True # os.environ.get("DEBUG", "False") == "True" 
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-
-# Application definition
 
 INSTALLED_APPS = [
     'channels',
@@ -29,9 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'rest_framework', 
     'base.apps.BaseConfig',
-    'last_visit.apps.LastVisitConfig',
     'cloudinary',
-    # 'django_extensions',
 ]
 
 AUTH_USER_MODEL = 'base.User'
