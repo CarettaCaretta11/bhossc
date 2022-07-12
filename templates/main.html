@@ -155,6 +155,11 @@
 
 
   {% endblock %}
+  <script>   
+    window.onload = () => {
+      alert('Not maintained anymore (21.06.2022).');
+    };
+  </script>  
   <script src="{% static 'js/script.js' %}"></script>
   <script>
     $(".img-thumbnail img").on('error', function () {
@@ -163,7 +168,7 @@
   </script>
 
 <body>
-
+ 
   <script>
     function status_checker() {
       $.ajax({
