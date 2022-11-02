@@ -137,7 +137,7 @@ def register_user_preliminary(request, *args, **kwargs):
         elif not email.endswith('@bhos.edu.az'):
             return render(request, 'base/httpresponse.html', {'invalid_email':'heyy'})
         else:
-            reg_link = f'https://bhossc.herokuapp.com/{email}' + exrex.getone(reg)
+            reg_link = f'https://bhossc.onrender.com/{email}' + exrex.getone(reg)
             try:
                 generated_links.execute(f"INSERT INTO Reglinks VALUES (?, ?)", (email, reg_link)) # we'll access this link later using the email as a unique key
                 generated_links.commit()
