@@ -1,0 +1,1 @@
+web: gunicorn yoyo1.wsgi

@@ -1,0 +1,25 @@
+<div class="topics">
+    <div class="topics__header">
+      <h2>Browse Topics</h2>
+    </div>
+    <ul class="topics__list">
+      <li>
+        <a href="{% url 'home' %}" class="active">All<span>{{room_count}}</span></a>
+      </li>
+      {% for topic in topics %}
+      {% if topic.room_set.all.count != 0 %}
+      <li>
+        <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}<span>{{topic.room_set.all.count}}</span></a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+    <a style="color: #0c0d11"; margin-left: 10%;" class="btn btn--main" href="{% url 'topics' %}">
+      See all
+        <title>chevron-down</title>
+        <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+      </svg>
+    </a>
+    <br>
+    <br>
+</div>

@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+#fb{
+    left: 50%;
+    top: 30%;
+    width: 460px;
+    border:1px solid gray;
+    border-radius:5px;
+    position:relative;
+    height:175px;
+    transform: translate(-50%, -50%);
+  }
+  #fb p{
+    width: 460px;
+    font-family:sans-serif;
+    margin: 0 0 0 10px;
+    line-height:30px;
+  }
+  
+  #fb-top span{
+    color:#4267B2;
+    float:right;
+    margin-right:10px;
+  }
+  #fb-top{
+    width: 460px;
+    background-color:#6f6a6a;
+    height:30px;
+    border-radius:5px 5px 0 0;
+    position:absolute;
+    top:-1px;
+    left:-1px;
+    border:1px solid gray;
+  }
+  
+  #fb img{
+    position:absolute;
+    left:10px;
+    top:52.5px;
+  }
+  
+  #info{
+    position:absolute;
+    left:120px;
+    top:75px;
+  }
+  
+  #info {
+    right: 10px;
+    color:#4267B2;
+    line-height:25px;
+    font-size:18px;
+  }
+  
+  #info span{
+    right: 10px;
+    color:#777;
+    font-size:14px;
+  }
+  
+  #button-block{
+    position:absolute;
+    right:10px;
+    top:85px;
+  }
+  
+  #button-block div{
+    display:inline-block;
+  }
+  
+  #confirm, #delete{
+    background-color:#4267B2;
+    color:white;
+    padding:7px;
+    border-radius:2px;
+    margin-right:10px;
+    font-family:sans-serif;
+  }
+  
+  #delete{
+    color:#222;
+    background-color:rgb(117, 69, 69);
+    border:1px solid #999;
+    padding:6px;
+    margin-right:0;
+  }
+  
+  #button-block div:hover{
+    opacity:.8;
+    cursor:pointer;
+  }
+</style>
+  
+<main>
+<center><strong><p style="padding: 10px; border: 2px solid mediumaquamarine">REQUEST BOX</p></strong></center>
+<br>
+<br>
+  
+  {% if user.pending_invs.all.count != 0 %}
+  {% for candidate in candidates %}
+  <div class="container-fluid" style="margin-top: 10%;"> 
+    <div id="fb">
+      <div id="fb-top">
+        <p><b>Friendship Request</b></p>
+      </div>
+      <img src="{{candidate.avatar.url}}" height="100" width="100" style="padding-right: 80%;">
+      <p id="info"><a href="{% url 'userprofile' candidate.id %}">@{{candidate.username}}</a> <br> <span>{{common_friends}} mutual friends</p>
+      <div id="button-block">
+        <div id="confirm"><a href="{% url 'accept' user.id candidate.id %}">Confirm</a></div>
+        <div id="delete"><a href="{% url 'ignore' user.id candidate.id %}">Delete request</a></div>
+      </div>
+    </div>
+  </div> 
+  {% endfor %}
+  {% else %}
+  <h3><center> No new notifications! </center></h3>
+  {% endif %}
+</main>
+{% endblock %}

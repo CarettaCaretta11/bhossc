@@ -1,0 +1,17 @@
+{% load static %}
+
+    <button type="button" id="button11" class="btn btn-success btn-lg">GET</button>
+
+    <ul id="seconds">
+
+    </ul>
+
+    <br>
+    <br>
+    <br>
+    {% csrf_token %}
+    <ul id="down"></ul>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>

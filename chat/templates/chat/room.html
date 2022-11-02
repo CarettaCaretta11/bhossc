@@ -1,0 +1,232 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .pmbox {
+        width: 90%;
+        max-width: 48rem;
+        min-height: 40rem;
+        max-height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -46%);
+        background-color: #3f4156;
+        border-radius: 1rem;
+        box-shadow: 1px 1px 6px 3px rgb(0 0 0 / 10%);
+    }
+
+    .pmbox_div_white::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .pmbox_div_white {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .pmbox_header {
+        display: flex;
+        padding: 0.5rem;
+        text-align: center;
+        justify-content: center;
+        background-color: #696d97;
+    }
+
+    .pmbox_text {
+        display: flex;
+        gap: 1.5rem;
+        color: white;
+        align-items: center;
+    }
+
+    .pmbox_body_text {
+        background-color: white;
+        max-width: 350px;
+        overflow-wrap: break-word;
+        margin: 10px;
+        border-radius: 4px;
+    }
+
+    .pmbox_div_white {
+        background-color: white;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 10px;
+        overflow-y: scroll;
+        max-height: 35rem;
+        height: 600px;
+    }
+
+    .time_span {
+        font-size: 0.8rem;
+        color: #b3b3b3;
+    }
+
+    .pmbox_name_attr {
+        background-color: #8b8b8b;
+        border-radius: 4px;
+        display: inline-block;
+    }
+</style>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>PM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="pmbox">
+        <div class="pmbox_header">
+            <div class="pmbox_text">
+                <h3>The chat between you and {% if request.user == legit_user_2 %}{{legit_user_1.name}}{% else %}{{legit_user_2.name}}{% endif %}</h3>
+            </div>
+        </div>
+        <div class="pmbox_div_white">
+            <div id="pmbox_body" class="pmbox_body">
+                {% for m in messagess %}
+                {% if m.sender == legit_user_1.username %}
+                <div class="pmbox_body_text">
+                    <div class="pmbox_body_text_body">
+                        <p>
+                            <span class="time_span">{{m.created}}</span><span class="pmbox_name_attr"> @{{m.sender}} </span>
+                            : {{m.body}}
+                        </p>
+                    </div>
+                </div>
+                {% else %}
+                <div id="pmbox_host" name="pmbox_host" class="pmbox_body_text">
+                    <div class="pmbox_body_text_body">
+                        <p>
+                            <span class="time_span">{{m.created}}</span> <span class="pmbox_name_attr"> @{{m.sender}} </span>
+                            : {{m.body}}
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <form>
+        <div class="form-group">
+            <input class="form-control" id="input" type="text" autocomplete="off"></br>
+        </div>
+        <input class="btn btn-secondary btn-lg btn-block" id="submit" type="button" value="Send">
+    </form>
+
+</body>
+
+{{ room_name|json_script:"room-name" }}
+{{ request.user.username|json_script:"user_username" }}
+{{ request.user.id|json_script:"user_id" }}
+{{ legit_user_1.username|json_script:"legit_user_1_username" }}
+{{ legit_user_2.username|json_script:"legit_user_2_username" }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(() => {
+        $("div[name='pmbox_host']").css("margin-left", "50%");
+    });
+</script>
+
+<script>
+window.onload = function () {
+    if (String(window.location.origin).startsWith("https://")) {
+        window.location.replace(`http://${window.location.host}${window.location.pathname}`);
+    }
+    document.querySelector('#input').addEventListener("keydown", (e) => {
+        if (e.keyCode == 13) { // enter, return
+            e.preventDefault();
+            document.getElementById('submit').click();
+            document.getElementById('input').focus();
+        }
+    })
+};
+</script>
+
+
+<script type="text/javascript">
+
+
+    const roomName = JSON.parse(document.getElementById("room-name").textContent);
+    const user_username = JSON.parse(document.getElementById("user_username").textContent);
+    const user_id = JSON.parse(document.getElementById("user_id").textContent);
+    const legit_user_1_username = JSON.parse(document.getElementById("legit_user_1_username").textContent);
+    const legit_user_2_username = JSON.parse(document.getElementById("legit_user_2_username").textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function (e) { // Fired when data is received through a WebSocket
+        const data = JSON.parse(e.data);
+        console.log(data.username, legit_user_1_username, legit_user_2_username);
+        if (data.message != '') {
+            if (!/^\s+$/.test(data.message)) {
+                if (data.username == legit_user_1_username) {
+                $("#pmbox_body").append(`<div class="pmbox_body_text">
+                    <div class="pmbox_body_text_body">
+                            <span class="pmbox_name_attr"> @${data.username} </span>: ${data.message}
+                    </div>
+                </div>`)} 
+                else if (data.username == legit_user_2_username) {
+                    $("#pmbox_body").append(`<div id="pmbox_host" name="pmbox_host" class="pmbox_body_text">
+                    <div class="pmbox_body_text_body">
+                            <span class="pmbox_name_attr"> @${data.username} </span>: ${data.message}
+                    </div>
+                </div>`)
+                $(document).ready(() => {
+        $("div[name='pmbox_host']").css("margin-left", "50%");
+                });
+                }
+                };
+            }
+                    //     $(document).ready(() => {
+                    //     $("#pmbox_host").css("margin-left", `${$("#pmbox_body").width() - $("#pmbox_host").width() - 10}px`);
+                    // });
+        };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    window.onload = function () {
+        if (String(window.location.origin).startsWith("https://")) {
+            window.location.replace(`http://${window.location.host}${window.location.pathname}`);
+        }
+        document.querySelector('#input').addEventListener("keydown", (e) => {
+            if (e.keyCode == 13) { // enter, return
+                e.preventDefault();
+                document.getElementById('submit').click();
+                document.getElementById('input').focus();
+            }
+        })
+    };
+
+    document.querySelector('#submit').onclick = function (e) {
+        if (document.getElementById('input').value != '') {
+            const messageInputDom = document.querySelector('#input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': user_username,
+                'room_name': roomName,
+            }));
+            messageInputDom.value = '';
+
+        }
+    };
+</script>
+{% endblock %}
