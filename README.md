@@ -2,7 +2,7 @@ A social media app for sharing information and ideas, asking questions etc. for 
 
 * The project was last transferred to a new platform (11.02.2022) and won't be maintained anymore.
 
-Visit [the website](https://bhossc.herokuapp.com) | [(alternative link)](https://bhossc.onrender.com) and register with your BHOS email address to start this journey!
+Visit <a href="https://bhossc.herokuapp.com/" target="_blank">the website</a> <a href="https://bhossc.herokuapp.com/" target="_blank">(alternative link)</a> and register with your BHOS email address to start this journey!
 
 * Account for testing purposes:
           
