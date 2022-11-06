@@ -102,7 +102,7 @@ def loginpage(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST': # request.POST - Contains parameters added as part of a POST request. Parameters are enclosed as a django.http.request.QueryDict instance.
-        email = request.POST.get('email').lower() # request.POST.get('name',default=None) Gets the value of the name parameter in a POST request or gets None if the parameter is not present. Note default can be overridden with a custom value.
+        email = request.POST.get('email').strip().lower() # request.POST.get('name',default=None) Gets the value of the name parameter in a POST request or gets None if the parameter is not present. Note default can be overridden with a custom value.
         password = request.POST.get('password')
         if email:
             try:
@@ -112,8 +112,8 @@ def loginpage(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            next = request.GET.get('next')
-            return redirect(next)
+            if request.GET.get('next'): return redirect(next)
+            else: return redirect('home')
         else:
             messages.error(request, 'Incorrect username or password!')
     context = {'page': page}
