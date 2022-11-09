@@ -1,0 +1,23 @@
+a.hideDisplay:hover span.showDisplayOnHover{ 
+    display: block;
+    position: absolute;
+    font-size: 18px;
+
+    /* This sets the height of a line of text in the box. */
+    line-height: 25px;
+
+    /* These position the box where it needs to go. */
+    top: 5px; 
+    left: 20px; 
+
+    /* These adjust the size of the box when it appears. */
+    width: auto;
+    padding: 10px;
+
+    border: 1px solid #666666;
+    background-color: #c0cedd; 
+
+    /* text color */
+    color: #000000;
+    text-align: left;
+    }

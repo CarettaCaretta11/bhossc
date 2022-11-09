@@ -1,0 +1,272 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .friendbox {
+            width: 85%;
+            max-width: 48rem;
+            min-width: 40rem;
+            max-height: 300px;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -46%);
+            background-color: #3f4156;
+            border-radius: 1rem;
+            box-shadow: 1px 1px 6px 3px rgb(0 0 0 / 10%);
+        }
+
+        /* @media only screen and (max-device-height: 480px) {
+            .friendbox {
+                max-height: 25px;
+                height: 25px;
+                top: 25%;
+            }
+        } */
+        .friendbox_body {
+            width: 100%;
+            max-width: 48rem;
+            min-height: 40rem;
+            max-height: 200px;
+        }
+
+        .friendbox_body::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .friendbox_body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .friendbox_header {
+            display: flex;
+            padding: 0.5rem;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            text-align: center;
+            justify-content: center;
+            background-color: #696d97;
+        }
+
+        .friendbox_text {
+            display: flex;
+            gap: 1.5rem;
+            height: 40px;
+            color: white;
+            align-items: center;
+        }
+
+        .friendbox_body {
+            overflow-y: scroll;
+            max-height: 600px;
+        }
+
+        .friendbox_body_text {
+            background-color: #3f4156;
+            max-width: 350px;
+            overflow-wrap: break-word;
+            margin: 10px;
+            border-radius: 4px;
+        }
+
+        .friendname {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5px;
+            width: 748px;
+            height: 60px;
+            position: relative;
+            margin-bottom: 5px;
+            background-color: azure;
+        }
+
+        .friendname>.text {
+            text-align: center;
+        }
+
+        .friendname>.data>img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+
+        .data>.text>h3 {
+            margin-left: 10px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .text {
+            display: flex;
+        }
+
+        .data>.text>h3>.xtext {
+            text-decoration: none;
+            font-family: 'Trebuchet MS', sans-serif;
+            font-size: medium;
+            border-radius: 3px;
+            margin-left: 0px;
+            margin-top: -1px;
+            border-width: thin;
+            color: black;
+        }
+    </style>
+</head>
+
+<main> 
+    <div class="friendbox" id="friendbox">
+        <div class="friendbox_header">
+            <div class="friendbox_text">
+                Friends
+            </div>
+        </div>
+
+        <div id="friendbox_body" class="friendbox_body">
+            {% for friend in frr %}
+            <div id="friendname" class="friendname">
+
+                <div class="data">
+
+                    <div class="text">
+                            <div style="bottom: 5px;" class="avatar avatar--small">
+                                <img src="{{friend.avatar.url}}">
+                            </div>
+                            <a class="epic" href="{% url 'userprofile' friend.id %}" style="text-decoration: none;">
+                                @{{friend.username}}
+                            </a>
+                            
+                            {% if request.user == user %}
+                                <a href="{% url 'delete-fr' user.id friend.id %}" class="xtext"> Remove </a>
+                            {% endif %}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+<script>
+    function showDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches(".dropbtn")) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+            }
+        }
+        }
+    };
+</script>         
+
+<style>
+.showLeft {
+    background-color: white !important;
+    border: 1px solid white !important;
+    text-shadow: white !important;
+    color: black !important;
+    padding: 10px;
+}
+.icons li {
+    background: none repeat scroll 0 0 black;
+    height: 7px;
+    width: 7px;
+    line-height: 0;
+    list-style: none outside none;
+    margin-right: 15px;
+    margin-top: 3px;
+    vertical-align: top;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.btn-left {
+    left: 0.4em;
+}
+.btn-right {
+    right: 0.4em;
+}
+.btn-left,
+.btn-right {
+    position: absolute;
+    top: 0.24em;
+}
+.dropbtn {
+    background-color: #4caf50;
+    position: fixed;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.dropbtn:hover,
+.dropbtn:focus {
+    background-color: #3e8e41;
+}
+.dropdown {
+    position: absolute;
+    display: inline-block;
+    right: 0.4em;
+}
+.dropdown-content {
+    display: none;
+    position: relative;
+    margin-top: 60px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+</style>        
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script>
+            window.onload = () => {
+                $(".avatar img").on('error', function () {
+                    $(this).attr("src", "/images/avatar1.svg")
+                })
+            }
+        </script>
+        <script>
+            window.onload = () => {
+                for (let i = 0; i < document.getElementsByClassName("xtext").length; i++) {
+                    document.getElementById("friendbox_body").style.height = document.getElementById("friendbox").offsetHeight/2 + "px";
+                    document.getElementsByClassName("friendname")[i].style.width = document.getElementById("friendbox_body").offsetWidth - 10 + "px";
+                    document.getElementsByClassName("epic")[i].style.marginLeft = document.getElementsByClassName("epic")[i].style.marginLeft + 30 + "px";
+                    document.getElementsByClassName("xtext")[i].style.marginLeft = document.getElementsByClassName("friendname")[i].offsetWidth - document.querySelectorAll(".data > .text > h3")[i].offsetWidth - 20 + "px";
+                }
+            }
+        </script>
+</main>
+
+{% endblock %}

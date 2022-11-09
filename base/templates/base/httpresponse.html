@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    {% if http_response %}
+    <center><strong>{{http_response}}</strong></center>
+    <br>
+    <br>
+    <center><strong><p>Redirecting to the home page...</p></strong></center>
+    <script>
+        setTimeout(redr, 2500);
+        function redr() {
+            window.location.replace("https://bhossc.herokuapp.com/");
+        }
+    </script>     
+    {% endif %}
+
+    {% if reg_mes %}
+    <center><strong><p>{{reg_mes}}</p></strong></center>
+    <br>
+    <br>
+    <center><strong><p>Redirecting to the registration page...</p></strong></center>
+    <script>
+        setTimeout(redr, 2500);
+        function redr() {
+            window.location.replace("https://bhossc.herokuapp.com/register/");
+        }
+    </script>    
+    {% endif %}
+
+    {% if invalid_email %}
+    <center><strong><p>Please use BHOS emails.</p></strong></center>
+    <br>
+    <br>
+    <center><strong><p>Redirecting to the registration page...</p></strong></center>
+    <script>
+        setTimeout(redr, 2500);
+        function redr() {
+            window.location.replace("https://bhossc.herokuapp.com/register/");
+        }
+    </script>
+    {% endif %}
+{% endblock %}
