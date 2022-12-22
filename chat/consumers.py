@@ -1,11 +1,16 @@
-import json, re
-from channels.generic.websocket import AsyncWebsocketConsumer
+import json
+import re
 from channels.db import database_sync_to_async
-from .models import pm_messages
-# from django.http import request
-# from asgiref.sync import sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
+from .models import PmMessages
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.room_name = None
+        self.room_group_name = None
+
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
@@ -43,18 +48,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
     # Receive message from room group
+
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'username' : username,
+            'username': username,
         }))
 
     @database_sync_to_async
     def save_message(self, message, username, room):
         spc_rgx = re.compile(r' +')
         listt = spc_rgx.findall(message)
-        if not message in listt:
-            pm_messages.objects.create(body=message, sender=username, room=room)
+        if message not in listt:
+            PmMessages.objects.create(
+                body=message, sender=username, room=room)

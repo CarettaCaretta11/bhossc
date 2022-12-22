@@ -9,7 +9,7 @@
 <main class="layout layout--3" style="color: cornsilk;">
   <div id="aa1" class="container" name="{{room_count}}">
     <!-- Topics Start -->
-    {% include 'base/topics_component.html' %}
+    {% include 'core/topics_component.html' %}
     <!-- Topics End -->
 
     <!-- Room List Start -->
@@ -55,7 +55,7 @@
           text-align: center;
         }
       </style>
-      {% include 'base/feed_component.html' %}
+      {% include 'core/feed_component.html' %}
 
       <!-- Room List End -->
       {% if room_count > 4 %}
@@ -224,7 +224,7 @@
         }
         </style>
     <!-- Activities Start -->
-    {% include 'base/activity_component.html' %}
+    {% include 'core/activity_component.html' %}
     <!-- Activities End -->
   </div>
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>

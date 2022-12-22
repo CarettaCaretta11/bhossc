@@ -13,10 +13,11 @@
     <br>
     <br>
     <center><strong><p>Redirecting to the home page...</p></strong></center>
-    <script>
+    <script type="text/javascript">
+        let root_url = "{{ root_url|safe }}"
         setTimeout(redr, 2500);
         function redr() {
-            window.location.replace("https://bhossc.herokuapp.com/");
+            window.location.replace(`${root_url}`);
         }
     </script>     
     {% endif %}
@@ -26,12 +27,13 @@
     <br>
     <br>
     <center><strong><p>Redirecting to the registration page...</p></strong></center>
-    <script>
+    <script type="text/javascript">
+        let root_url = "{{ root_url|safe }}"
         setTimeout(redr, 2500);
         function redr() {
-            window.location.replace("https://bhossc.herokuapp.com/register/");
+            window.location.replace(`${root_url}/register/`);
         }
-    </script>    
+    </script>
     {% endif %}
 
     {% if invalid_email %}
@@ -39,10 +41,11 @@
     <br>
     <br>
     <center><strong><p>Redirecting to the registration page...</p></strong></center>
-    <script>
+    <script type="text/javascript">
+        let root_url = "{{ root_url|safe }}"
         setTimeout(redr, 2500);
         function redr() {
-            window.location.replace("https://bhossc.herokuapp.com/register/");
+            window.location.replace(`${root_url}/register/`);
         }
     </script>
     {% endif %}

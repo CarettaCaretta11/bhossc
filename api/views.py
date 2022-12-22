@@ -1,14 +1,13 @@
-from cgitb import lookup
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.status import HTTP_201_CREATED
 from rest_framework.decorators import api_view
-from base.models import Room, User, Message
+from core.models import Room, User, Message
 from .serializers import RoomSerializer, UserSerializer, MessageSerializer
-from api import serializers
+
 
 @api_view(['GET'])
-def getRoutes(request):
+def get_routes(request):
     routes = [
         'GET /api/',
         'GET /api/rooms',
@@ -26,46 +25,53 @@ def getRoutes(request):
         'POST /api/messages/create',
         'DELETE /api/message/:id/delete',
     ]
-    return Response(routes) # safe => can use lists etc.
+    return Response(routes)  # safe => can use lists etc.
+
 
 @api_view(['GET'])
-def getRooms(request):
+def get_rooms(request):
     rooms = Room.objects.all()
     serializer = RoomSerializer(rooms, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def getRoom(request, pk):
+def get_room(request, pk):
     room = Room.objects.get(id=pk)
     serializer = RoomSerializer(room)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def getUsers(request):
+def get_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def getUser(request, pk):
+def get_user(request, pk):
     user = User.objects.get(id=pk)
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def getMessages(request):
+def get_messages(request):
     messages = Message.objects.all()
     serializer = MessageSerializer(messages, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def getMessage(request, pk):
+def get_message(request, pk):
     message = Message.objects.get(id=pk)
     serializer = MessageSerializer(message)
     return Response(serializer.data)
 
+
 @api_view(['GET', 'POST'])
-def createRoom(request):
+def create_room(request):
     if request.method == 'POST':
         serializer = RoomSerializer(data=request.data)
         if serializer.is_valid():
@@ -83,8 +89,9 @@ def createRoom(request):
             'msg': 'Write down the attributes to create a Room object.'
         })
 
+
 @api_view(['GET', 'POST'])
-def createUser(request):
+def create_user(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -102,8 +109,9 @@ def createUser(request):
             'msg': 'Write down the attributes to create a User object.'
         })
 
+
 @api_view(['GET', 'POST'])
-def createMessage(request):
+def create_message(request):
     if request.method == 'POST':
         serializer = MessageSerializer(data=request.data)
         if serializer.is_valid():
@@ -121,23 +129,28 @@ def createMessage(request):
             'msg': 'Write down the attributes to create a Message object.'
         })
 
+
 class RoomRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = "pk"
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
 
 class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = "pk"
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
 class RoomDeleteAPIView(generics.DestroyAPIView):
     lookup_field = "pk"
     queryset = Room.objects.all()
 
+
 class UserDeleteAPIView(generics.DestroyAPIView):
     lookup_field = "pk"
     queryset = User.objects.all()
+
 
 class MessageDeleteAPIView(generics.DestroyAPIView):
     lookup_field = "pk"
