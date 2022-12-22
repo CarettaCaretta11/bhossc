@@ -63,6 +63,7 @@ cover/
 local_settings.py
 db.sqlite3
 reg_links.sqlite
+.DS_Store
 db.sqlite3-journal
 *.dump
 
