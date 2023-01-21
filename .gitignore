@@ -62,7 +62,7 @@ cover/
 *.pyc
 local_settings.py
 db.sqlite3
-reg_links.sqlite
+# reg_links.sqlite
 *.DS_Store
 .idea
 db.sqlite3-journal
