@@ -105,6 +105,7 @@ def register_user_preliminary(request, *args, **kwargs):
             return render(request, 'core/httpresponse.html', {'invalid_email': 'heyy'})
         else:
             reg_link = f'{os.environ["BHOSSC_ROOT_URL"]}{email}{rstr.xeger(reg)}'
+            # https://bhossc-production.up.railway.app/
             try:
                 # we'll access this link later using the email as a unique key
                 generated_links.execute(
@@ -133,7 +134,7 @@ def register_user(request, *args, **kwargs):
     if request.user.is_authenticated:
         return redirect('home')
     abs_path = request.build_absolute_uri()
-    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][22:]
+    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][41:]
     the_link = generated_links.execute(
         f"SELECT reg_link from Reglinks WHERE email = ?", (email,)).fetchall()[0][0]
     # Change this, There is a more efficient way of placing variables into queries in SQLite3
