@@ -1,5 +1,5 @@
 """
-WSGI config for yoyo1 project. WEB-SERVICE-GATEWAY-INTERFACE
+WSGI config for bhossc project. WEB-SERVICE-GATEWAY-INTERFACE
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'yoyo1.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bhoscc.settings')
 
 application = get_wsgi_application()

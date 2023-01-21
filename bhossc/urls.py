@@ -27,4 +27,4 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # If DEBUG is set to True (in your settings module),
 # then your 404 view will never be used, and your URLconf will be displayed instead,
 # with some debug information.
-# handler404 = "yoyo1.views.page_not_found_view"
+# handler404 = "bhossc.views.page_not_found_view"
