@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from django.utils.timezone import now
 from django.utils.timezone import utc
 from bhossc.settings import DEFAULT_FROM_EMAIL
-from .models import Message, Photos, Room, Topic, User
+from .models import Message, Room, Topic, User
 from .forms import RoomForm, UserForm, MyUserCreationForm
 
 
