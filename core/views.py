@@ -128,7 +128,7 @@ def register_user(request, *args, **kwargs):
     if request.user.is_authenticated:
         return redirect('home')
     abs_path = request.build_absolute_uri()
-    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][len(dns)+1:]
+    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][len(dns):]
     the_link = get_object_or_404(Reglink, email=email).reglink
 
     if abs_path != the_link:
