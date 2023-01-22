@@ -14,8 +14,7 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(template_name='core/password_reset_confirm.html'),
          name='password_reset_confirm'),
-    # uidb64 = user id in base 64,
-    # token: Password recovery token to check that the password is valid.
+    # uidb64 = user id in base 64, token: Password recovery token to check that the password is valid.
     path('password-reset/done', auth_views.PasswordResetDoneView.as_view(
         template_name='core/password_reset_done.html'), name='password_reset_done'),
     path('password-reset-complete', auth_views.PasswordResetCompleteView.as_view(
@@ -23,8 +22,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# If DEBUG is set to True (in your settings module),
-# then your 404 view will never be used, and your URLconf will be displayed instead,
-# with some debug information.
-# handler404 = "bhossc.views.page_not_found_view"

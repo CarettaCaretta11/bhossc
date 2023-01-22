@@ -4,6 +4,7 @@ import sqlite3
 import datetime
 import rstr
 from math import floor
+
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -15,8 +16,9 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.utils.timezone import now
 from django.utils.timezone import utc
+
 from bhossc.settings import DEFAULT_FROM_EMAIL
-from .models import Message, Room, Topic, User
+from .models import Message, Room, Topic, User, Reglink
 from .forms import RoomForm, UserForm, MyUserCreationForm
 
 
@@ -25,11 +27,11 @@ def page_not_found_view(request):
 
 
 def wdhm(sec):  # weeks-days-hours-minutes
-    w = floor(sec / (3600 * 24 * 7))  # weeks
-    d = floor((sec - 3600 * 24 * 7 * w) / (3600 * 24))  # days
-    h = floor((sec - 3600 * 24 * 7 * w - 3600 * 24 * d) / 3600)  # hours
+    w = floor(sec / (3600 * 24 * 7))
+    d = floor((sec - 3600 * 24 * 7 * w) / (3600 * 24))
+    h = floor((sec - 3600 * 24 * 7 * w - 3600 * 24 * d) / 3600)
     m = floor((sec - 3600 * 24 * 7 * w - 3600 *
-               24 * d - 3600 * h) / 60)  # minutes
+               24 * d - 3600 * h) / 60)
 
     return w, d, h, m
 
@@ -89,14 +91,13 @@ def login_page(request):
 
 
 reg = r'(\d|[a-z]|[A-Z]){6}(\d|[a-z]|[A-Z]){9}(\d){5}([A-Z]|[a-z]){5}[a-z]{3}(\d|[A-Z]|[a-z]){4}'
-generated_links = sqlite3.connect(
-    'core/reg_links.sqlite', check_same_thread=False)
+dns = os.environ.get("BHOSSC_ROOT_URL")
 
 
 def register_user_preliminary(request, *args, **kwargs):
     if request.user.is_authenticated:
         return redirect('home')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         email = str(request.POST.get('email1')).strip()
         if User.objects.filter(email=email).exists():
             return render(request, 'core/httpresponse.html',
@@ -104,29 +105,22 @@ def register_user_preliminary(request, *args, **kwargs):
         elif not email.endswith('@bhos.edu.az'):
             return render(request, 'core/httpresponse.html', {'invalid_email': 'heyy'})
         else:
-            reg_link = f'{os.environ["BHOSSC_ROOT_URL"]}{email}{rstr.xeger(reg)}'
-            # https://bhossc-production.up.railway.app/
-            try:
-                # we'll access this link later using the email as a unique key
-                generated_links.execute(
-                    f"INSERT INTO Reglinks VALUES (?, ?)", (email, reg_link))
-                generated_links.commit()
-                send_mail(subject='Registration', message="Here is your registration link:",
-                          from_email=DEFAULT_FROM_EMAIL, recipient_list=[f'{email}'], html_message=f'''
-                <p>Here is your registration link:</p><br><a href={reg_link} style="text-decoration:none;display:inline-block;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;background-image:linear-gradient(#05b8ff,#05b8ff);color:#000000;font-size:18px;font-weight:bold;text-align:center;padding:12px 14px;border-radius:48px;background-color:#05b8ff!important">Register</a><br><strong>Do not share it with anyone.</strong>''',
-                          fail_silently=False)
-                return render(request, 'core/httpresponse.html',
-                              {'reg_mes': 'A registration link has been sent to your email address.'})
-            except:
-                generated_links.execute(
-                    f"UPDATE Reglinks SET reg_link = ? WHERE email = ?", (reg_link, email))
-                generated_links.commit()
-                send_mail(subject='Registration', message="Here is your registration link:",
-                          from_email=DEFAULT_FROM_EMAIL, recipient_list=[f'{email}'], html_message=f'''
-                <p>Here is your registration link:</p><br><a href={reg_link} style="text-decoration:none;display:inline-block;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;background-image:linear-gradient(#05b8ff,#05b8ff);color:#000000;font-size:18px;font-weight:bold;text-align:center;padding:12px 14px;border-radius:48px;background-color:#05b8ff!important">Register</a><br><strong>Do not share it with anyone.</strong>''',
-                          fail_silently=False)
-                return render(request, 'core/httpresponse.html',
-                              {'reg_mes': 'A registration link has been sent to your email address.'})
+            reglink = f'{dns}{email}{rstr.xeger(reg)}'
+            send_mail(
+                subject='Registration',
+                message="Here is your registration link:",
+                from_email=DEFAULT_FROM_EMAIL,
+                recipient_list=[f'{email}'],
+                html_message=f'''
+                <p>Here is your registration link:</p><br><a href={reglink} style="text-decoration:
+                none;display:inline-block;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:
+                ellipsis;background-image:linear-gradient(#05b8ff,#05b8ff);color:#000000;font-size:18px;
+                font-weight:bold;text-align:center;padding:12px 14px;border-radius:48px;background-color:
+                #05b8ff!important">Register</a><br><strong>Do not share it with anyone.</strong>''',
+                fail_silently=False
+            )
+            Reglink.objects.create(email=email, reglink=reglink)
+
     return render(request, 'core/reg_email.html')
 
 
@@ -134,10 +128,8 @@ def register_user(request, *args, **kwargs):
     if request.user.is_authenticated:
         return redirect('home')
     abs_path = request.build_absolute_uri()
-    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][41:]
-    the_link = generated_links.execute(
-        f"SELECT reg_link from Reglinks WHERE email = ?", (email,)).fetchall()[0][0]
-    # Change this, There is a more efficient way of placing variables into queries in SQLite3
+    email = re.findall(r'.*@bhos.edu.az', abs_path)[0][len(dns)+1:]
+    the_link = get_object_or_404(Reglink, email=email).reglink
 
     if abs_path != the_link:
         return render(request, 'core/404.html')
@@ -153,9 +145,7 @@ def register_user(request, *args, **kwargs):
             user.email = email.lower()
             user.save()
             login(request, user)
-            generated_links.execute(
-                "UPDATE Reglinks SET reg_link = '' WHERE email = ?", (email,))
-            generated_links.commit()
+            Reglink.objects.get(email=email).delete()
             return redirect('home')
         else:
             messages.error(request, 'An error occured during registration')
@@ -167,11 +157,6 @@ def logout_view(request):
     return redirect('home')
 
 
-def photo_cloudinary(request):
-    photo = Photos.objects.all()
-    return render(request, 'core/photos.html', {'photo': photo})
-
-
 def home(request):
     now = datetime.datetime.utcnow().replace(tzinfo=utc)
     q = request.GET.get('q').strip() if request.GET.get('q') else ''
@@ -181,8 +166,6 @@ def home(request):
         lst = Topic.objects.get(
             name__icontains='Lost items').room_set.all().count()
     rooms = Room.objects.filter(
-        # if the topic name contains the 'q' input
-        # (i in icontains makes it case-insensitive : a, A are considered the same)
         Q(topic__name__icontains=q) |
         Q(name__icontains=q) |
         Q(host__username=q) |
@@ -201,8 +184,6 @@ def home(request):
 @login_required(login_url='/login/')
 def room(request, pk):
     room = get_object_or_404(Room, id=int(pk))
-    # room.message_set.all() gives all instances of Messages model
-    # (Messages = messages, as it's case-insensitive) that belong to this room object
     room_messages = room.message_set.all().order_by('-created')
     participants = room.participants.all()
     if request.method == 'POST' and str(request.POST.get("body")).strip() == '':
@@ -212,7 +193,6 @@ def room(request, pk):
             Message.objects.create(
                 user=request.user,
                 room=room,
-                # see name="body" inside <input> in room.html
                 body=request.POST.get('body')
             )
             room.participants.add(request.user)
@@ -243,7 +223,7 @@ def status_checker(request):
 @login_required(login_url='/login/')
 def profile_status(request, pk):
     user = User.objects.get(id=pk)
-    gtd = user.get_time_diff()  # this is being updated by status_checker() every x seconds
+    gtd = user.get_time_diff()
     if request.GET.get('a'):
         if gtd <= 30:
             data = {
@@ -430,39 +410,41 @@ def load_more(request):
     if visible <= len(rooms) - 1:
         room1 = rooms[visible - 1]
         room2 = rooms[visible]
-        dataa = {"newroomhost": room1.host.name,
-                 "newroomhostid": room1.host.id,
-                 "newroomhostavatar": str(room1.host.avatar.url),
-                 "newroomname": room1.name,
-                 "newroomid": room1.id,
-                 "newroomdescription": room1.description,
-                 "newroomtopic": str(room1.topic),
-                 "newroomparticipants": len(room1.participants.all()),
-                 "roomgettimedifference": std(room1.get_time_diffr()),
-                 "roomcreated": room1.created,
-                 "newroomhost1": room2.host.name,
-                 "newroomhostid1": room2.host.id,
-                 "newroomhostavatar1": str(room2.host.avatar.url),
-                 "newroomname1": room2.name,
-                 "newroomid1": room2.id,
-                 "newroomdescription1": room2.description,
-                 "newroomtopic1": str(room2.topic),
-                 "newroomparticipants1": len(room2.participants.all()),
-                 "roomgettimedifference1": std(room2.get_time_diffr()),
-                 "roomcreated1": room2.created,
-                 }
+        dataa = {
+            "newroomhost": room1.host.name,
+            "newroomhostid": room1.host.id,
+            "newroomhostavatar": str(room1.host.avatar.url),
+            "newroomname": room1.name,
+            "newroomid": room1.id,
+            "newroomdescription": room1.description,
+            "newroomtopic": str(room1.topic),
+            "newroomparticipants": len(room1.participants.all()),
+            "roomgettimedifference": std(room1.get_time_diffr()),
+            "roomcreated": room1.created,
+            "newroomhost1": room2.host.name,
+            "newroomhostid1": room2.host.id,
+            "newroomhostavatar1": str(room2.host.avatar.url),
+            "newroomname1": room2.name,
+            "newroomid1": room2.id,
+            "newroomdescription1": room2.description,
+            "newroomtopic1": str(room2.topic),
+            "newroomparticipants1": len(room2.participants.all()),
+            "roomgettimedifference1": std(room2.get_time_diffr()),
+            "roomcreated1": room2.created,
+        }
     elif visible == len(rooms):
         room1 = rooms[visible - 1]
-        dataa = {"newroomhost": room1.host.name,
-                 "newroomhostid": room1.host.id,
-                 "newroomhostavatar": str(room1.host.avatar.url),
-                 "newroomname": room1.name,
-                 "newroomid": room1.id,
-                 "newroomdescription": room1.description,
-                 "newroomtopic": str(room1.topic),
-                 "newroomparticipants": len(room1.participants.all()),
-                 "roomgettimedifference": std(room1.get_time_diffr()),
-                 }
+        dataa = {
+            "newroomhost": room1.host.name,
+            "newroomhostid": room1.host.id,
+            "newroomhostavatar": str(room1.host.avatar.url),
+            "newroomname": room1.name,
+            "newroomid": room1.id,
+            "newroomdescription": room1.description,
+            "newroomtopic": str(room1.topic),
+            "newroomparticipants": len(room1.participants.all()),
+            "roomgettimedifference": std(room1.get_time_diffr()),
+        }
     if request.is_ajax():
         return JsonResponse(dataa)
 
