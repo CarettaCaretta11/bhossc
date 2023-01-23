@@ -123,13 +123,18 @@ def register_user_preliminary(request, *args, **kwargs):
                     fail_silently=False
                 )
             except IntegrityError:
-                return render(
-                    request,
-                    'core/httpresponse.html',
-                    {
-                        'http_response': '''A registration link has already been sent to the given email address.
-                                            Please contact the admin in case you need a new link.'''
-                    },
+                send_mail(
+                    subject='Registration',
+                    message="Here is your registration link:",
+                    from_email=DEFAULT_FROM_EMAIL,
+                    recipient_list=[f'{email}'],
+                    html_message=f'''
+                    <p>Here is your registration link:</p><br><a href={Reglink.objects.get(email=email).reglink} style="text-decoration:
+                    none;display:inline-block;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:
+                    ellipsis;background-image:linear-gradient(#05b8ff,#05b8ff);color:#000000;font-size:18px;
+                    font-weight:bold;text-align:center;padding:12px 14px;border-radius:48px;background-color:
+                    #05b8ff!important">Register</a><br><strong>Do not share it with anyone.</strong>''',
+                    fail_silently=False
                 )
     return render(request, 'core/reg_email.html')
 
