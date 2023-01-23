@@ -12,11 +12,6 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', '.railway.app']
 
-# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-#
-# if RENDER_EXTERNAL_HOSTNAME:
-#     ALLOWED_HOSTS += RENDER_EXTERNAL_HOSTNAME
-
 TEMPLATE_CONTEXT_PROCESSORS = [("core.context_processors.root_url_processor", )]
 
 INSTALLED_APPS = [

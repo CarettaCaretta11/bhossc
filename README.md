@@ -1,10 +1,12 @@
 A social media app for sharing information and ideas, asking questions etc. for students.
 
-* The project (probably) won't be maintained anymore.
+Please try the following links (some may not work, hope one does!), register with your BHOS email address, and start this journey!
 
-Visit <a href="https://bhossc.herokuapp.com/" target="_blank">the website</a> (won't work after Nov 28 2022) <a href="https://bhossc-production.up.railway.app/" target="_blank">(alternative link) </a> - (little or no data populated, registration etc. not configured) and register with your BHOS email address to start this journey!
+- <a href="https://bhossc.herokuapp.com/" target="_blank">Original link</a>
+- <a href="https://web-production-8d58.up.railway.app/" target="_blank">Mirror 1</a>
+- <a href="https://bhossc-production.up.railway.app/" target="_blank">Mirror 2</a>
 
-* Account for testing purposes:
+* Test account (valid for all 3 options):
           
         email: testuser@bhossc.com     
         password: 12test34
