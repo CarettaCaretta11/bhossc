@@ -3,8 +3,8 @@ A social media app for sharing information and ideas, asking questions etc. for 
 Please try the following links (some may not work, hope one does!), register with your BHOS email address, and start this journey!
 
 - <a href="https://bhossc.herokuapp.com/" target="_blank">Original link (Heroku)</a>
-- <a href="https://web-production-8d58.up.railway.app/" target="_blank">Mirror 1 (Railway)</a>
-- <a href="https://bhossc-production.up.railway.app/" target="_blank">Mirror 2 (Railway)</a>
+- <a href="https://web-production-8d58.up.railway.app/" target="_blank" rel="noopener noreferrer">Mirror 1 (Railway)</a>
+- <a href="https://bhossc-production.up.railway.app/" target="_blank" rel="noopener noreferrer">Mirror 2 (Railway)</a>
 
 * Test account (valid for all 3 options):
           
@@ -31,6 +31,11 @@ Add your own viewpoint in the comment section.
 
 This is where the friendship requests received from others are displayed. You can accept/turn down the request.
 Check out friendship requests in `Request Box` (in the navigation bar) and accept the request from admin :D.
+
+#### Real-time status checking
+
+Check if your friends are online! The platform also offers a highly accurate
+estimate of when they were online the last time.
 
 #### Real-time private messaging (currently unavailable)
 
