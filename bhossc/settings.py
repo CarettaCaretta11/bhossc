@@ -132,6 +132,15 @@ CHANNEL_LAYERS = {
     },
 }
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.environ.get('REDIS_URL'), os.environ.get('REDIS_PORT'))],
+        },
+    },
+}
+
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
