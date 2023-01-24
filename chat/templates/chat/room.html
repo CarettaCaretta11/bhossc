@@ -137,19 +137,6 @@
     });
 </script>
 
-<script>
-window.onload = function () {
-     /** window.location.replace(`http://${window.location.host}${window.location.pathname}`); **/
-    document.querySelector('#input').addEventListener("keydown", (e) => {
-        if (e.keyCode == 13) { // enter, return
-            e.preventDefault();
-            document.getElementById('submit').click();
-            document.getElementById('input').focus();
-        }
-    })
-};
-</script>
-
 
 <script type="text/javascript">
 
@@ -198,9 +185,6 @@ window.onload = function () {
     };
 
     window.onload = function () {
-        if (String(window.location.origin).startsWith("https://")) {
-            window.location.replace(`http://${window.location.host}${window.location.pathname}`);
-        }
         document.querySelector('#input').addEventListener("keydown", (e) => {
             if (e.keyCode == 13) { // enter, return
                 e.preventDefault();

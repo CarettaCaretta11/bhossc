@@ -30,9 +30,9 @@ def room(request, room_name):
     messagess = []
     for message in PmMessages.objects.filter(room=room_name).reverse()[0:25]:
         messagess.append(message)
-        print(type(message.sender))
     messagess.reverse()
-    return render(request, 'chat/room.html', {'room_name': room_name, 'messagess': messagess, 'legit_user_1': legit_user_1, 'legit_user_2': legit_user_2})
+    return render(request, 'chat/room.html', {'room_name': room_name, 'messagess': messagess,
+                                              'legit_user_1': legit_user_1, 'legit_user_2': legit_user_2})
 
 
 @login_required(login_url='/login/')
