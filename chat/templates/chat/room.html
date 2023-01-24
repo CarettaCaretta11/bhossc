@@ -139,9 +139,7 @@
 
 <script>
 window.onload = function () {
-    if (String(window.location.origin).startsWith("https://")) {
-        window.location.replace(`http://${window.location.host}${window.location.pathname}`);
-    }
+     /** window.location.replace(`http://${window.location.host}${window.location.pathname}`); **/
     document.querySelector('#input').addEventListener("keydown", (e) => {
         if (e.keyCode == 13) { // enter, return
             e.preventDefault();
@@ -163,7 +161,7 @@ window.onload = function () {
     const legit_user_2_username = JSON.parse(document.getElementById("legit_user_2_username").textContent);
 
     const chatSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         + '/ws/chat/'
         + roomName
@@ -193,9 +191,6 @@ window.onload = function () {
                 }
                 };
             }
-                    //     $(document).ready(() => {
-                    //     $("#pmbox_host").css("margin-left", `${$("#pmbox_body").width() - $("#pmbox_host").width() - 10}px`);
-                    // });
         };
 
     chatSocket.onclose = function (e) {
