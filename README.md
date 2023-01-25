@@ -3,7 +3,7 @@ A social media app for sharing information and ideas, asking questions etc. for 
 Please try the following links (some may not work, hope one does!), register with your BHOS email address, and start this journey!
 
 - <a href="https://bhossc.herokuapp.com/" target="_blank">Original link (Heroku)</a>
-- <a href="https://web-production-8d58.up.railway.app/" target="_blank" rel="noopener noreferrer">Mirror 1 (Railway)</a>
+- <a href="https://bhosscmirror.up.railway.app/" target="_blank" rel="noopener noreferrer">Mirror 1 (Railway)</a>
 - <a href="https://bhossc-production.up.railway.app/" target="_blank" rel="noopener noreferrer">Mirror 2 (Railway)</a>
 
 * Test account (valid for all 3 options):
