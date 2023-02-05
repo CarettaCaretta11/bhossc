@@ -44,6 +44,6 @@ Chat with anyone in your friends list in real-time, in a separate room for you t
 ### Preview
 
 
-https://user-images.githubusercontent.com/88619404/216833445-b7cb7103-efcd-49c6-8170-9346fbd5a2fb.mp4
+https://user-images.githubusercontent.com/88619404/216833550-ecc4a5e5-cd63-4219-b503-7c85a5f04a3f.mp4
 
 
