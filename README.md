@@ -13,7 +13,7 @@ Please try the following links (some may not work, hope one does!), register wit
 
 ## A quick overview
 
-#### Registration
+## Registration
 
 For reasons regarding the privacy of discussions, potential users
 can only register with BHOS email addresses possessed by BHOS students only. The account pinned above
@@ -22,21 +22,28 @@ yourself with the platform.
 
 * A technical sidenote. During the regisration, one-time registration links are generated and sent to the email address if the latter is valid.
 
-#### Rooms
+## Rooms
 
 Create a room, set the topic and description, and start discussions.
 Add your own viewpoint in the comment section.
 
-#### Request Box
+## Request Box
 
 This is where the friendship requests received from others are displayed. You can accept/turn down the request.
 Check out friendship requests in `Request Box` (in the navigation bar) and accept the request from admin :D.
 
-#### Real-time status checking
+## Real-time status checking
 
 Check if your friends are online! The platform also offers a highly accurate
 estimate of when they were online the last time.
 
-#### Real-time private messaging (currently unavailable)
+## Real-time private messaging (currently unavailable in production)
 
 Chat with anyone in your friends list in real-time, in a separate room for you two!
+
+### Preview
+
+
+https://user-images.githubusercontent.com/88619404/216833445-b7cb7103-efcd-49c6-8170-9346fbd5a2fb.mp4
+
+
