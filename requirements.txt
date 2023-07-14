@@ -28,6 +28,7 @@ hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
 msgpack==1.0.4
+mysqlclient
 Pillow==8.3.2
 platformdirs==2.4.0
 psycopg2==2.9.5
