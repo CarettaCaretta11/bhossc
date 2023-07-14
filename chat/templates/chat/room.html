@@ -137,23 +137,21 @@
     });
 </script>
 
-
-<script type="text/javascript">
-
-
+<script>
     const roomName = JSON.parse(document.getElementById("room-name").textContent);
-    const user_username = JSON.parse(document.getElementById("user_username").textContent);
-    const user_id = JSON.parse(document.getElementById("user_id").textContent);
-    const legit_user_1_username = JSON.parse(document.getElementById("legit_user_1_username").textContent);
-    const legit_user_2_username = JSON.parse(document.getElementById("legit_user_2_username").textContent);
-
     const chatSocket = new WebSocket(
-        'wss://'
+        'ws://'
         + window.location.host
         + '/ws/chat/'
         + roomName
         + '/'
     );
+
+    const user_username = JSON.parse(document.getElementById("user_username").textContent);
+    const user_id = JSON.parse(document.getElementById("user_id").textContent);
+    const legit_user_1_username = JSON.parse(document.getElementById("legit_user_1_username").textContent);
+    const legit_user_2_username = JSON.parse(document.getElementById("legit_user_2_username").textContent);
+
 
     chatSocket.onmessage = function (e) { // Fired when data is received through a WebSocket
         const data = JSON.parse(e.data);
@@ -181,7 +179,7 @@
         };
 
     chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly');
+        alert('Chat socket closed unexpectedly');
     };
 
     window.onload = function () {

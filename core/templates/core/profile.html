@@ -109,6 +109,9 @@
       },
       success: (data) => {
         $("#status").text(data['status']);
+        if (data['status'] == 'Online') {
+            $("#status").css( "color", "green" );
+        }
         setTimeout(ps, 1500);
       }
     });

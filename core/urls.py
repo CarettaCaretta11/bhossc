@@ -36,7 +36,8 @@ urlpatterns = [
          viewss.delete_pm_message, name='delete-pm-message'),
     path('loadmore/', views.load_more, name='loadmore'),
     re_path(
-        r'\w+(\d|[a-z]|[A-Z]){6}(\d|[a-z]|[A-Z]){9}(\d){5}([A-Z]|[a-z]){5}[a-z]{3}(\d|[A-Z]|[a-z]){4}', views.register_user),
+        r'\w+(\d|[a-z]|[A-Z]){6}(\d|[a-z]|[A-Z]){9}(\d){5}([A-Z]|[a-z]){5}[a-z]{3}(\d|[A-Z]|[a-z]){4}',
+        views.register_user),
     path('status-checker/', views.status_checker, name="status_checker"),
     path('profile-status/<str:pk>', views.profile_status, name="profile_status"),
 ]

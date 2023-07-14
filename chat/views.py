@@ -10,6 +10,10 @@ def index(request):
     return render(request, 'chat/index.html')
 
 
+# def room(request, room_name):
+#     return render(request, "chat/roomm.html", {"room_name": room_name})
+
+
 def get_group_name(user1, user2):
     return 'chat-{}-{}'.format(*sorted([user1.id, user2.id]))
 
@@ -31,8 +35,16 @@ def room(request, room_name):
     for message in PmMessages.objects.filter(room=room_name).reverse()[0:25]:
         messagess.append(message)
     messagess.reverse()
-    return render(request, 'chat/room.html', {'room_name': room_name, 'messagess': messagess,
-                                              'legit_user_1': legit_user_1, 'legit_user_2': legit_user_2})
+    return render(
+        request,
+        'chat/room.html',
+        {
+            'room_name': room_name,
+            'messagess': messagess,
+            'legit_user_1': legit_user_1,
+            'legit_user_2': legit_user_2
+        }
+    )
 
 
 @login_required(login_url='/login/')
@@ -45,6 +57,7 @@ def delete_pm_message(request, pk):  # pk = primary key
         pm_message.delete()
     # value is accessed by the name of the key in the template.
     return render(request, 'core/delete.html', {'obj': pm_message})
+
 
 # def chatt(request, room_name):
 #     if request.is_ajax and request.method == 'POST':
